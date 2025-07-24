@@ -1,8 +1,9 @@
 import aiogram
 from aiogram import Bot, Dispatcher
 import asyncio
-from aiogram.filters import CommandStart, Command
-from aiogram.types import Message
+# импортируем руты
+from app.handlers import router
+
 from config import TOKEN
 import logging
 
@@ -10,19 +11,9 @@ bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
 
-@dp.message(CommandStart())
-# обработка команды старт
-async def cmd_start(message: Message):
-    await message.answer('hello')
-
-
-@dp.message(Command('help'))
-# обработка команды help
-async def get_help(message: Message):
-    await message.answer('this is help command')
-
-
 async def main():
+    # подключаем руты из app/handlers.py
+    dp.include_router(router)
     # функция запуска бота в работу
     await dp.start_polling(bot)
 
