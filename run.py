@@ -17,6 +17,7 @@ async def cmd_start(message: Message):
 
 
 @dp.message(Command('help'))
+# обработка команды help
 async def get_help(message: Message):
     await message.answer('this is help command')
 
