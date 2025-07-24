@@ -12,6 +12,24 @@ router = Router()
 async def cmd_start(message: Message):
     await message.answer('hello', reply_markup=kb.main)
 
+# вывод созданных reply-кнопок из функции
+# test_list = ['q', 'w', 'e']
+# async def test_inline_buttons():
+#     keyboard = ReplyKeyboardBuilder()
+#     for i in test_list
+#     keyboard.add(KeyboardButton(text=i))
+#     return keyboard.adjust(2).as_markup()
+
+
+@router.message(Command('test_inline'))
+async def test_inline(message: Message):
+    await message.reply('here is example of inline buttons', reply_markup=await kb.test_inline_buttons())
+
+
+@router.message(Command('test_reply'))
+async def test_inline(message: Message):
+    await message.reply('here is example of reply buttons', reply_markup=await kb.test_reply_buttons())
+
 
 @router.message(Command('inline'))
 # создали вывод inline-кнопок
