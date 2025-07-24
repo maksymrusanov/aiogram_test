@@ -13,6 +13,12 @@ async def cmd_start(message: Message):
     await message.answer('hello', reply_markup=kb.main)
 
 
+@router.message(Command('inline'))
+# создали вывод inline-кнопок
+async def show_inline_buttons(message: Message):
+    await message.answer('hello with inline buttons', reply_markup=kb.inline_buttons)
+
+
 @router.message(Command('id'))
 # возврат id по запросу /id с методом reply(ответит на сообщение)
 async def cmd_start(message: Message):
