@@ -1,6 +1,6 @@
 from aiogram import F, Router
 from aiogram.filters import CommandStart, Command
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 # импортировали этот модуль
 import app.keyboards as kb
 # роутер чтобы не было ошибок при рутинге(меняем все dp на router)
@@ -75,3 +75,32 @@ async def get_photo(message: Message):
 async def get_photo(message: Message):
     await message.answer_photo(photo='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%2Fid%2FOIP.n-_WWS8nyodVAXv4HiKxagHaEW%3Fpid%3DApi&f=1&ipt=45f62af95bb5c38aa69246a4697db38f92008b0091683c120584fcdc9aa4ec56&ipo=images',
                                caption='this is another picture')
+
+# сделали логику что при нажатии на кнопку появляются другие кнопки(как будто подкнопки,хз)
+
+
+@router.callback_query(F.data == 'q')
+async def q(callback: CallbackQuery):
+    await callback.message.answer('you pressed q button')
+    await callback.message.edit_text('pick up', reply_markup=await kb.test_inline_buttons())
+
+
+@router.callback_query(F.data == 'w')
+async def q(callback: CallbackQuery):
+    await callback.message.answer('you pressed w button')
+
+
+@router.callback_query(F.data == 'e')
+async def q(callback: CallbackQuery):
+    await callback.message.answer('you pressed e button')
+
+
+@router.message(Command('callback'))
+# функция обработки callback-функции
+# call_back = InlineKeyboardMarkup(inline_keyboard=[
+#     [InlineKeyboardButton(text='q', callback_data='q')],
+#     [InlineKeyboardButton(text='w', callback_data='w')],
+#     [InlineKeyboardButton(text='e', callback_data='e')],
+# ])
+async def show_callback(message: Message):
+    await message.answer('this is callback func', reply_markup=kb.call_back)

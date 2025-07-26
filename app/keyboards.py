@@ -12,6 +12,13 @@ main = ReplyKeyboardMarkup(keyboard=[
     # добавили как бы строку-подсказку
     input_field_placeholder='choose option')
 
+# callback-functions
+call_back = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='q', callback_data='q')],
+    [InlineKeyboardButton(text='w', callback_data='w')],
+    [InlineKeyboardButton(text='e', callback_data='e')],
+])
+
 # inline-кнопки
 inline_buttons = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='youtube', url='www.youtube.com')],
@@ -20,7 +27,7 @@ inline_buttons = InlineKeyboardMarkup(inline_keyboard=[
 ])
 
 
-test_list = ['q', 'w', 'e']
+test_list = ['x', 'y', 'i']
 
 
 async def test_reply_buttons():
