@@ -1,6 +1,9 @@
 from aiogram import F, Router
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, CallbackQuery
+# imports for FSM content
+from aiogram.fsm.state import StatesGroup, State
+from aiogram.fsm.context import FSMContext
 # импортировали этот модуль
 import app.keyboards as kb
 # роутер чтобы не было ошибок при рутинге(меняем все dp на router)
@@ -104,3 +107,38 @@ async def q(callback: CallbackQuery):
 # ])
 async def show_callback(message: Message):
     await message.answer('this is callback func', reply_markup=kb.call_back)
+# FSM Content
+
+# логика регистрации
+
+
+class Reg(StatesGroup):
+    name = State()
+    number = State()
+
+
+@router.message(Command('reg'))
+# регистрация имени
+async def reg_one(message: Message, state: FSMContext):
+    await state.set_state(Reg.name)
+    await message.answer('enter your name')
+
+
+@router.message(Reg.name)
+async def reg_two(message: Message, state: FSMContext):
+    await state.update_data(name=message.text)
+    # теперь запрашиваем номер телефона
+    await state.set_state(Reg.number)
+    await message.answer('enter your number')
+
+# логоика для номера телефона
+
+
+@router.message(Reg.number)
+async def reg_three(message: Message, state: FSMContext):
+    await state.update_data(number=message.text)
+    # получение инфы
+    data = await state.get_data()
+    await message.answer(f'registration complete\nYour name: {data["name"]}\nYour number: {data["number"]}')
+    await state.clear()
+# окончание логики регистрации
